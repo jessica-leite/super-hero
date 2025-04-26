@@ -3,16 +3,10 @@ using SuperHero.Server.Models;
 
 namespace SuperHero.Server.Repositories
 {
-    public class HeroRepository
+    public class HeroRepository(DbContext dbContext)
     {
-        private readonly DbContext _dbContext;
-        private readonly DbSet<Hero> _dbSet;
-
-        public HeroRepository(DbContext dbContext)
-        {
-            _dbContext = dbContext;
-            _dbSet = dbContext.Set<Hero>();
-        }
+        private readonly DbContext _dbContext = dbContext;
+        private readonly DbSet<Hero> _dbSet = dbContext.Set<Hero>();
 
         public async Task<Hero> GetByIdAsync(int id)
         {

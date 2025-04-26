@@ -6,14 +6,12 @@ namespace SuperHero.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HeroController : ControllerBase
+    public class HeroController(HeroService heroService) : ControllerBase
     {
-        private HeroService heroService;
-
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var hero = heroService.GetById(id);
+            var hero = await heroService.GetById(id);
             if (hero == null)
             {
                 return NotFound();
@@ -23,10 +21,10 @@ namespace SuperHero.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var heroes = heroService.GetAll();
-            if (heroes == null || !heroes.Any())
+            var heroes = await heroService.GetAll();
+            if(heroes == null || !heroes.Any())
             {
                 return NotFound();
             }
@@ -35,9 +33,9 @@ namespace SuperHero.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateHero(Hero hero)
+        public async Task<IActionResult> CreateHero(Hero hero)
         {
-            var newHero = heroService.CreateHero(hero);
+            var newHero = await heroService.CreateHero(hero);
             if (newHero == null)
             {
                 return BadRequest();
@@ -47,26 +45,26 @@ namespace SuperHero.Server.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateHero(Hero hero)
+        public async Task<IActionResult> UpdateHero(Hero hero)
         {
-            bool heroExists = heroService.HeroExists(hero.Id);
+            var heroExists = await heroService.HeroExists(hero.Id);
             if (!heroExists)
             {
                 return NotFound();
             }
 
-            heroService.UpdateHero(hero);
+            await heroService.UpdateHero(hero);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteHero(int id)
+        public async Task<IActionResult> DeleteHero(int id)
         {
-            var heroExists = heroService.HeroExists(id);
+            var heroExists = await heroService.HeroExists(id);
             if (!heroExists)
                 return NotFound();
 
-            heroService.DeleteHero(id);
+            await heroService.DeleteHero(id);
             return NoContent();
         }
     }

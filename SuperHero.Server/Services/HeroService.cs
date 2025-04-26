@@ -1,67 +1,38 @@
 ﻿using SuperHero.Server.Models;
+using SuperHero.Server.Repositories;
 
 namespace SuperHero.Server.Services
 {
-    public class HeroService
+    public class HeroService(HeroRepository heroRepository)
     {
-        public Hero GetById(int id)
+        public async Task<Hero> GetById(int id)
         {
-            return new Hero
-            {
-                Nome = "Batata",
-                NomeHeroi = "BatataGirl",
-                DataNascimento = new DateTime(1992, 5, 24),
-                Altura = 1.68,
-                Peso = 63
-            };
+            return await heroRepository.GetByIdAsync(id);
         }
 
-        public Hero CreateHero(Hero hero)
+        public async Task<Hero> CreateHero(Hero hero)
         {
-            return new Hero
-            {
-                Nome = hero.Nome,
-                NomeHeroi = hero.NomeHeroi,
-                DataNascimento = hero.DataNascimento,
-                Altura = hero.Altura,
-                Peso = hero.Peso
-            };
+            return await heroRepository.CreateHeroAsync(hero);
         }
 
-        public IEnumerable<Hero> GetAll()
+        public async Task<IEnumerable<Hero>> GetAll()
         {
-            return new List<Hero>
-            {
-                new Hero {
-                    Nome = "Batata",
-                    NomeHeroi = "BatataGirl",
-                    DataNascimento = new DateTime(1992, 5, 24),
-                    Altura = 1.68,
-                    Peso = 63
-                },
-                new Hero {
-                    Nome = "Beterraba",
-                    NomeHeroi = "BatataBoy",
-                    DataNascimento = new DateTime(2001, 4, 18),
-                    Altura = 1.78,
-                    Peso = 85
-                }
-            };
+            return await heroRepository.GetAllAsync();
         }
 
-        public bool HeroExists(int id)
+        public async Task<bool> HeroExists(int id)
         {
-            return true;
+            return await heroRepository.HeroExistsAsync(id);
         }
 
-        public void UpdateHero(Hero hero)
+        public async Task UpdateHero(Hero hero)
         {
-            
+            await heroRepository.UpdateHeroAsync(hero);
         }
 
-        public void DeleteHero(int id)
+        public async Task DeleteHero(int id)
         {
-            
+            await heroRepository.DeleteHeroAsync(id);
         }
     }
 }
