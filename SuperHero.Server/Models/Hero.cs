@@ -2,7 +2,7 @@ namespace SuperHero.Server.Models
 {
     public class Hero
     {
-        private int Id { get; set; }
+        public int Id { get; private set; }
         public string Nome { get; set; }
 
         public string NomeHeroi { get; set; }

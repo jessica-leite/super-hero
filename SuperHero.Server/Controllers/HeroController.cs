@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SuperHero.Server.Models;
 using SuperHero.Server.Services;
 
 namespace SuperHero.Server.Controllers
@@ -20,5 +21,30 @@ namespace SuperHero.Server.Controllers
 
             return Ok(hero);
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var heroes = heroService.GetAll();
+            if (heroes == null || !heroes.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(heroes);
+        }
+
+        [HttpPost]
+        public IActionResult CreateHero(Hero hero)
+        {
+            var newHero = heroService.CreateHero(hero);
+            if (newHero == null)
+            {
+                return BadRequest();
+            }
+
+            return CreatedAtAction(nameof(CreateHero), new { id = newHero.Id }, newHero);
+        }
+
     }
 }
