@@ -48,5 +48,20 @@ namespace SuperHero.Server.Services
                 }
             };
         }
+
+        public bool HeroExists(int id)
+        {
+            return true;
+        }
+
+        public void UpdateHero(Hero hero)
+        {
+            
+        }
+
+        public void DeleteHero(int id)
+        {
+            
+        }
     }
 }

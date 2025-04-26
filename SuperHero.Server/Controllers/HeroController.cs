@@ -46,5 +46,28 @@ namespace SuperHero.Server.Controllers
             return CreatedAtAction(nameof(CreateHero), new { id = newHero.Id }, newHero);
         }
 
+        [HttpPut]
+        public IActionResult UpdateHero(Hero hero)
+        {
+            bool heroExists = heroService.HeroExists(hero.Id);
+            if (!heroExists)
+            {
+                return NotFound();
+            }
+
+            heroService.UpdateHero(hero);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteHero(int id)
+        {
+            var heroExists = heroService.HeroExists(id);
+            if (!heroExists)
+                return NotFound();
+
+            heroService.DeleteHero(id);
+            return NoContent();
+        }
     }
 }
