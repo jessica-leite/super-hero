@@ -11,5 +11,7 @@ namespace SuperHero.Server.Models
 
         public double Altura { get; set; }
         public double Peso { get; set; }
+        public int SuperPoderId { get; set; }
+        public SuperPower SuperPoder { get; set; }
     }
 }
