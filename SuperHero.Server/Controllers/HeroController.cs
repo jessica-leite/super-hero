@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SuperHero.Server.Models;
+using SuperHero.Server.DTO;
 using SuperHero.Server.Services;
 
 namespace SuperHero.Server.Controllers
@@ -14,7 +14,7 @@ namespace SuperHero.Server.Controllers
             var hero = await heroService.GetById(id);
             if (hero == null)
             {
-                return NotFound();
+                return NotFound("Herói não encontrado");
             }
 
             return Ok(hero);
@@ -26,31 +26,31 @@ namespace SuperHero.Server.Controllers
             var heroes = await heroService.GetAll();
             if(heroes == null || !heroes.Any())
             {
-                return NotFound();
+                return NotFound("Nenhum herói cadastrado");
             }
 
             return Ok(heroes);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateHero(Hero hero)
+        public async Task<IActionResult> CreateHero(HeroDTO hero)
         {
             var newHero = await heroService.CreateHero(hero);
             if (newHero == null)
             {
-                return BadRequest();
+                return BadRequest("Não foi possível criar o herói, verifique as informações e tente novamente");
             }
 
             return CreatedAtAction(nameof(CreateHero), new { id = newHero.Id }, newHero);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateHero(Hero hero)
+        public async Task<IActionResult> UpdateHero(HeroDTO hero)
         {
             var heroExists = await heroService.HeroExists(hero.Id);
             if (!heroExists)
             {
-                return NotFound();
+                return NotFound("Não foi possível encontrar o herói, verifique as informações e tente novamente");
             }
 
             await heroService.UpdateHero(hero);
@@ -62,7 +62,7 @@ namespace SuperHero.Server.Controllers
         {
             var heroExists = await heroService.HeroExists(id);
             if (!heroExists)
-                return NotFound();
+                return NotFound("Não foi possível encontrar o herói");
 
             await heroService.DeleteHero(id);
             return NoContent();

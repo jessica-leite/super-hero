@@ -42,7 +42,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "Heroion": {
               "budgets": [
                 {
                   "type": "initial",
@@ -63,13 +63,13 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "Heroion"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "superhero.client:build:production"
+            "Heroion": {
+              "buildTarget": "superhero.client:build:Heroion"
             },
             "development": {
               "buildTarget": "superhero.client:build:development"
